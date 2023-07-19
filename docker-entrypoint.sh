@@ -10,6 +10,8 @@ fi
 
 cp /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.template
 
-envsubst '$RESOLVERS $UPSTREAM_HTTP_ADDRESS $CLIENT_MAX_BODY_SIZE' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
+proxy_send_timeout="${proxy_send_timeout:-60s}"
+proxy_read_timeout="${proxy_read_timeout:-60s}"
+envsubst '$RESOLVERS $UPSTREAM_HTTP_ADDRESS $CLIENT_MAX_BODY_SIZE $proxy_read_timeout $proxy_send_timeout' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
 
 exec "$@"
